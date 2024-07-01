@@ -32,10 +32,22 @@ module.exports = {
       accountId: {
         allowNull: false,
         type: Sequelize.UUID,
+        references: {
+          model: "Accounts", // Tên bảng Users
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
       },
       roleId: {
         allowNull: false,
         type: Sequelize.UUID,
+        references: {
+          model: "Roles", // Tên bảng Users
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
       },
 
       createdAt: {

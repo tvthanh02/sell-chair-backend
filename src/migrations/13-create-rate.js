@@ -2,35 +2,26 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Payments", {
+    await queryInterface.createTable("Rates", {
       id: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
       },
-      orderId: {
+      productId: {
         allowNull: false,
         type: Sequelize.UUID,
+        references: {
+          model: "Products",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
       },
-      paymentTypeId: {
+      rate: {
         allowNull: false,
-        type: Sequelize.UUID,
-      },
-      paymentStatusId: {
-        allowNull: false,
-        type: Sequelize.UUID,
-      },
-      paymentDate: {
-        allowNull: false,
-        type: Sequelize.DATE,
-      },
-      transaction: {
-        type: Sequelize.STRING,
-      },
-      paymentAmount: {
-        allowNull: false,
-        type: Sequelize.DECIMAL(10, 2),
+        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: false,
@@ -43,6 +34,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Payments");
+    await queryInterface.dropTable("Rates");
   },
 };

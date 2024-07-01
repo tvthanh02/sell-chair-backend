@@ -12,6 +12,12 @@ module.exports = {
       customerId: {
         allowNull: false,
         type: Sequelize.UUID,
+        references: {
+          model: "Users",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
       },
       orderDate: {
         allowNull: false,
@@ -27,6 +33,15 @@ module.exports = {
       finalAmount: {
         allowNull: false,
         type: Sequelize.DECIMAL(10, 2),
+      },
+      promotionCode: {
+        type: Sequelize.UUID,
+        references: {
+          model: "Promotions", // Tên bảng Users
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
       },
       orderStatus: {
         allowNull: false,
