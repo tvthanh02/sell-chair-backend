@@ -14,7 +14,17 @@ module.exports = (sequelize, DataTypes) => {
   }
   PaymentStatus.init(
     {
-      paymentStatusName: DataTypes.ENUM,
+      id: {
+        primaryKey: true,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+      },
+      paymentStatusName: DataTypes.ENUM(
+        "Pending",
+        "Completed",
+        "Failed",
+        "Refunded"
+      ),
     },
     {
       sequelize,

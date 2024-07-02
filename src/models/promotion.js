@@ -14,6 +14,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   Promotion.init(
     {
+      id: {
+        primaryKey: true,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+      },
       discountAmount: DataTypes.INTEGER,
       startDate: DataTypes.DATE,
       endDate: DataTypes.DATE,

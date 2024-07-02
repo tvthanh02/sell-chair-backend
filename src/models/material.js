@@ -14,6 +14,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   Material.init(
     {
+      id: {
+        primaryKey: true,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+      },
       materialName: DataTypes.STRING,
     },
     {

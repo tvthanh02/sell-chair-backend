@@ -17,6 +17,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   Rate.init(
     {
+      id: {
+        primaryKey: true,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+      },
       productId: DataTypes.STRING,
       rate: DataTypes.INTEGER,
     },
