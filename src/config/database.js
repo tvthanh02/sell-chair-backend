@@ -14,6 +14,7 @@ module.exports = {
     dialectOptions: {
       bigNumberStrings: true,
     },
+    timezone: "+07:00",
   },
   test: {
     username: process.env.DB_DEV_USER,
