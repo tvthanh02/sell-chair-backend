@@ -9,7 +9,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Material.belongsToMany(models.Product, { through: "Product_Material" });
+      Material.belongsToMany(models.Product, {
+        through: "Product_Material",
+        onDelete: "CASCADE",
+      });
     }
   }
   Material.init(

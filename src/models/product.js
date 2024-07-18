@@ -14,10 +14,18 @@ module.exports = (sequelize, DataTypes) => {
         targetKey: "id",
       });
       Product.hasMany(models.Rate);
-      Product.hasMany(models.ProductImage);
+      Product.hasMany(models.ProductImage, {
+        onDelete: "CASCADE",
+      });
       Product.hasMany(models.OrderDetail);
-      Product.belongsToMany(models.Material, { through: "Product_Material" });
-      Product.belongsToMany(models.Color, { through: "Product_Color" });
+      Product.belongsToMany(models.Material, {
+        through: "Product_Material",
+        onDelete: "CASCADE",
+      });
+      Product.belongsToMany(models.Color, {
+        through: "Product_Color",
+        onDelete: "CASCADE",
+      });
     }
   }
   Product.init(
