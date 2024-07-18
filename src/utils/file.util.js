@@ -1,14 +1,19 @@
 const fs = require("fs");
 
-const writeFile = (path, data) => {
+const writeFile = async (path, data, overwrite = true) => {
   try {
-    fs.writeFileSync(path, data);
+    if (fs.existsSync(path)) {
+      if (!overwrite) {
+        return 0;
+      }
+    }
+    await fs.promises.writeFile(path, data);
     return 1;
   } catch (error) {
-    return 0;
+    console.error(`Error writing file: ${error.message}`);
+    return -1;
   }
 };
-
 module.exports = {
   writeFile,
 };

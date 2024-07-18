@@ -3,10 +3,6 @@ const db = require("../models");
 const filterWithParams = async (products, fieldsFilter) => {
   const { minPrice, maxPrice, name, type, material, color } = fieldsFilter;
 
-  // price: minPrice, maxPrice
-  console.log(products);
-  console.log(minPrice, material, maxPrice, name, type, color);
-
   if (minPrice) {
     products = products.filter((product) => product.price >= minPrice);
   }
