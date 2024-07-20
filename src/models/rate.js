@@ -13,6 +13,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "productId",
         targetKey: "id",
       });
+
+      Rate.belongsTo(models.User, {
+        foreignKey: "customerId",
+        targetKey: "id",
+      });
     }
   }
   Rate.init(
@@ -23,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: DataTypes.UUIDV4,
       },
       productId: DataTypes.STRING,
+      customerId: DataTypes.STRING,
       rate: DataTypes.INTEGER,
     },
     {

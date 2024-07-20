@@ -19,12 +19,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
       },
-      paymentStatusName: DataTypes.ENUM(
-        "Pending",
-        "Completed",
-        "Failed",
-        "Refunded"
-      ),
+      paymentStatusName: DataTypes.STRING,
     },
     {
       sequelize,

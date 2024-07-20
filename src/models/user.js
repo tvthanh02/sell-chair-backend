@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       });
       User.belongsTo(models.Role, { foreignKey: "roleId", targetKey: "id" });
       User.hasMany(models.Order);
+      User.hasMany(models.Rate);
     }
   }
   User.init(

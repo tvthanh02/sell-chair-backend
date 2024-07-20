@@ -19,6 +19,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "promotionCode",
         targetKey: "id",
       });
+      Order.belongsTo(models.OrderStatus, {
+        foreignKey: "orderStatusId",
+        targetKey: "id",
+      });
     }
   }
   Order.init(
@@ -34,12 +38,7 @@ module.exports = (sequelize, DataTypes) => {
       discountAmount: DataTypes.DECIMAL,
       finalAmount: DataTypes.DECIMAL,
       promotionCode: DataTypes.UUID,
-      orderStatus: DataTypes.ENUM(
-        "Pending",
-        "Shipped",
-        "Delivered",
-        "Cancelled"
-      ),
+      orderStatusId: DataTypes.UUID,
       shipFee: DataTypes.DECIMAL,
     },
     {
