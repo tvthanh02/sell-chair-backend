@@ -28,9 +28,9 @@ const getNewProducts = async (page = 1, query) => {
   return {
     data,
     paging: {
-      totalPage: Math.ceil(data.length / numPerPage),
+      totalPage: Math.ceil(products.count / numPerPage),
       currentPage: page,
-      rows: data.length,
+      rows: products.count,
     },
   };
 };

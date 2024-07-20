@@ -5,6 +5,7 @@ const {
   removeMaterial,
 } = require("../controllers/product-material.controller");
 const { authorize, isAmin } = require("../middleware/auth");
+const db = require("../models");
 
 const productMaterialRouter = express.Router();
 

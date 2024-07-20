@@ -5,6 +5,7 @@ const getImagesByProductId = async (productId) => {
   return product && (await product.getProductImages());
 };
 
+// use form-data
 const addProductImage = async (imageUrl, productId) => {
   return await db.ProductImage.create({
     imageUrl,
@@ -12,20 +13,13 @@ const addProductImage = async (imageUrl, productId) => {
   });
 };
 
-const updateProductImage = async (updateProductImageId, imageUrlUpdate) => {
-  return await db.ProductImage.update(
-    {
-      imageUrl: imageUrlUpdate,
-    },
-    {
-      where: {
-        id: updateProductImageId,
-      },
-    }
-  );
-};
-
 const removeProductImage = async (deleteProductImageId) => {
+  // case 1
+  // get images from productId
+  // remove deleteProductImageId from arrayImages
+  // update
+
+  // case 2
   return await db.ProductImage.destroy({
     where: {
       id: deleteProductImageId,
@@ -35,7 +29,6 @@ const removeProductImage = async (deleteProductImageId) => {
 
 module.exports = {
   addProductImage,
-  updateProductImage,
   removeProductImage,
   getImagesByProductId,
 };

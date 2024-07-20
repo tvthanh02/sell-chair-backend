@@ -3,6 +3,7 @@ const { multiValueParamSplitter } = require("../middleware/product.middleware");
 const {
   getNewProducts,
   addProduct,
+  deleteProduct,
 } = require("../controllers/product.controller");
 const productRouter = express.Router();
 const upload = require("../utils/multer.util");
@@ -12,10 +13,7 @@ const uploadFields = upload.fields([
   { name: "images", maxCount: 10 },
 ]);
 
-const db = require("../models");
-const { v4: uuidv4 } = require("uuid");
-const { writeFile } = require("../utils/file.util");
-const path = require("path");
+const productValidator = require("../middleware/validator/product.validator");
 
 // get list new product
 productRouter.get("/new", multiValueParamSplitter, async (req, res) => {
@@ -44,80 +42,54 @@ productRouter.get("/new", multiValueParamSplitter, async (req, res) => {
   }
 });
 
-productRouter.post("/add", uploadFields, async (req, res) => {
-  const {
-    productName,
-    productDescription,
-    quantity,
-    productTypeId,
-    discount,
-    materials,
-    colors,
-  } = req.body;
+productRouter.post("/add", uploadFields, productValidator, async (req, res) => {
+  //.. get data from middleware validate => ok
+  // .. color, material had splited => array
 
-  const thumbnailImage = req.files["thumbnail"][0];
-
+  const thumbnail = req.files["thumbnail"][0];
   const images = req.files["images"];
 
-  const transaction = await db.sequelize.transaction();
+  // req.body.materialsProduct = materialsProduct.includes(",")
+  //   ? materialsProduct.split(",")
+  //   : [materialsProduct];
+
+  // req.body.colorsProduct = colorsProduct.includes(",")
+  //   ? colorsProduct.split(",")
+  //   : [colorsProduct];
 
   try {
-    const product = await addProduct(
-      {
-        ...req.body,
-        thumbnailUrl: thumbnailImage.originalname.toLowerCase(),
-      },
-      transaction
-    );
-
-    const productImages = await Promise.all(
-      images.map((image) =>
-        db.ProductImage.create(
-          {
-            imageUrl: image.originalname.toLowerCase(),
-            productId: product.id,
-          },
-          {
-            transaction,
-          }
-        )
-      )
-    );
-
-    await product.setProductImages(productImages, { transaction });
-
-    await Promise.all(
-      [thumbnailImage].concat(images).map(
-        (image) =>
-          new Promise((resolve, reject) => {
-            try {
-              writeFile(
-                path.join(
-                  path.resolve(__dirname, ".."),
-                  `assets/imgs/${image.originalname.toLowerCase()}`
-                ),
-                image.buffer
-              );
-              resolve();
-            } catch (error) {
-              reject();
-            }
-          })
-      )
-    );
-
-    await transaction.commit();
+    await addProduct({
+      ...req.body,
+      thumbnail,
+      images,
+    });
 
     res.status(201).json({
       message: "add product successfully!",
     });
   } catch (error) {
-    console.log(error);
-    await transaction.rollback();
     res.status(500).json({
       error: 1,
-      message: "Created Product Failure!",
+      message: "Created Product Failure!" + error,
     });
+  }
+});
+
+productRouter.delete("/delete", async (req, res) => {
+  const { id } = req.body;
+
+  if (id) {
+    try {
+      await deleteProduct(id);
+      res.status(204).json({
+        message: "Delete Product Success!",
+      });
+    } catch (error) {
+      res.status(500).json({
+        error: 1,
+        message: "Internal Server Error" + error,
+      });
+    }
   }
 });
 

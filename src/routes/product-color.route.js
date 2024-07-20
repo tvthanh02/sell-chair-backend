@@ -1,4 +1,5 @@
 const express = require("express");
+const db = require("../models");
 const {
   addColor,
   updateColor,
@@ -17,7 +18,7 @@ productColorRouter.get("/", async (req, res) => {
   } catch (error) {
     res.status(500).json({
       error: 1,
-      message: "Internal Server Error",
+      message: "Internal Server Error" + error,
     });
   }
 });
