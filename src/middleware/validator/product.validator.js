@@ -1,13 +1,6 @@
+const { badRequest } = require("../../utils/response-methods.util");
+
 const productValidator = (req, res, next) => {
-  const sendBadRequest = (message) => {
-    res.status(400).json({
-      error: 1,
-      message,
-    });
-  };
-
-  console.log(req.body);
-
   const {
     productName,
     productDescription,
@@ -23,40 +16,40 @@ const productValidator = (req, res, next) => {
   const images = req.files["images"];
 
   if (!productName) {
-    sendBadRequest("productName missing field");
+    badRequest(res, "productName missing field");
     return;
   }
   if (!productDescription) {
-    sendBadRequest("productDescription missing field");
+    badRequest(res, "productDescription missing field");
     return;
   }
   if (!quantity) {
-    sendBadRequest("quantity missing field");
+    badRequest(res, "quantity missing field");
     return;
   }
   if (!price) {
-    sendBadRequest("price missing field");
+    badRequest(res, "price missing field");
     return;
   }
   if (!productTypeId) {
-    sendBadRequest("productTypeId missing field");
+    badRequest(res, "productTypeId missing field");
     return;
   }
 
   if (!materialsProduct) {
-    sendBadRequest("materialsProduct missing field");
+    badRequest(res, "materialsProduct missing field");
     return;
   }
   if (!colorsProduct) {
-    sendBadRequest("colorsProduct missing field");
+    badRequest(res, "colorsProduct missing field");
     return;
   }
   if (!thumbnail) {
-    sendBadRequest("thumbnailImage missing field");
+    badRequest(res, "thumbnailImage missing field");
     return;
   }
   if (!images) {
-    sendBadRequest("images missing field");
+    badRequest(res, "images missing field");
     return;
   }
 
